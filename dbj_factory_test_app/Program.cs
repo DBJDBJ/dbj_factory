@@ -1,27 +1,35 @@
 using System;
 using System.Threading.Tasks;
+using dbj_factory_test_app;
 using DbjFactory;
-using MyProducts;
+using dbj_result;
 
-namespace MyProducts
+namespace dbj_factory_test_app;
+
+public class ProductA : BaseProduct
 {
-    public class ProductA : DbjFactory.BaseProduct
-    {
-        // Additional properties and methods specific to ProductA
-    }
+    // Additional properties and methods specific to ProductA
 }
 
-namespace FactoryApp
-{
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            DbjFactory.RegisterProduct<ProductA>();
 
-            IProduct product = await DbjFactory.GetProductAsync<IProduct>();
-            Console.WriteLine(product.GetName());
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        try
+        {
+            DbjFactory.DbjFactory.RegisterProduct<ProductA>();
+            //
+            // IProduct? product;
+            // Result<IProduct?> 
+                var result = await DbjFactory.DbjFactory.GetProductAsync<ProductA>();
+            Console.WriteLine(result?.GetName());
+        }
+        catch (InvalidOperationException iopx)
+        {
+            Console.WriteLine(iopx.Message);
         }
     }
 }
+
 

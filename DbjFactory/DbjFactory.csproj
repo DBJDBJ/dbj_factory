@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\dbj_result\dbj_result.csproj" />
+  </ItemGroup>
+
 </Project>
