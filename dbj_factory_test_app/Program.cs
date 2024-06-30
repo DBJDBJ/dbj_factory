@@ -11,6 +11,12 @@ public class ProductA : BaseProduct
     // Additional properties and methods specific to ProductA
 }
 
+public class ProductB : BaseProduct
+{
+
+    // Additional properties and methods specific to ProductA
+}
+
 
 class Program
 {
@@ -22,8 +28,19 @@ class Program
             //
             // IProduct? product;
             // Result<IProduct?> 
-                var result = await DbjFactory.DbjFactory.GetProductAsync<ProductA>();
-            Console.WriteLine(result?.GetName());
+                var product = await DbjFactory.DbjFactory.GetProductAsync<ProductA>();
+            Console.WriteLine(product?.GetName());
+
+            Result<ProductB?>? result = 
+                await DbjFactory.DbjFactory.GetProductAsyncNoThrow<ProductB>();
+
+            if (result is not null )
+            {
+                if (result.IsSuccess)
+                    Console.WriteLine(result.Data?.GetName());
+                else 
+                    Console.WriteLine(result.ErrorMessage); 
+            }
         }
         catch (InvalidOperationException iopx)
         {
