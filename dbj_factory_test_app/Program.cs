@@ -5,9 +5,7 @@ using MyProducts;
 
 namespace MyProducts
 {
-    using DbjFactory;
-
-    public class ProductA : BaseProduct
+    public class ProductA : DbjFactory.BaseProduct
     {
         // Additional properties and methods specific to ProductA
     }

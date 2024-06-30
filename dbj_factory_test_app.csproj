@@ -7,4 +7,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="DbjFactory\**" />
+    <EmbeddedResource Remove="DbjFactory\**" />
+    <None Remove="DbjFactory\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="DbjFactory\dbjfactory.csproj" />
+  </ItemGroup>
+
 </Project>

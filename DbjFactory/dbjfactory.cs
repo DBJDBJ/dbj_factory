@@ -29,12 +29,12 @@ namespace DbjFactory;
             ProductRegistry[typeof(IProduct)] = typeof(TConcrete);
         }
 
-        public static async Task<TProduct> GetProductAsync<TProduct>()
+        public static async Task<TProduct?> GetProductAsync<TProduct>()
             where TProduct : IProduct
         {
             if (ProductRegistry.TryGetValue(typeof(TProduct), out Type concreteType))
             {
-                return await Task.Run(() => (TProduct)Activator.CreateInstance(concreteType));
+                return await Task.Run(() => (TProduct?)Activator.CreateInstance(concreteType));
             }
             throw new InvalidOperationException($"No concrete type registered for {typeof(TProduct).Name}");
         }

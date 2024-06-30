@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbj_factory_test_app", "dbj_factory_test_app.csproj", "{235EF79C-B997-4E8A-998B-1E73270A2A89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbjfactory", "DbjFactory\dbjfactory.csproj", "{B5191D31-F1ED-4AFE-A6DB-2489BA82528F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{235EF79C-B997-4E8A-998B-1E73270A2A89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{235EF79C-B997-4E8A-998B-1E73270A2A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{235EF79C-B997-4E8A-998B-1E73270A2A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{235EF79C-B997-4E8A-998B-1E73270A2A89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5191D31-F1ED-4AFE-A6DB-2489BA82528F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5191D31-F1ED-4AFE-A6DB-2489BA82528F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5191D31-F1ED-4AFE-A6DB-2489BA82528F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5191D31-F1ED-4AFE-A6DB-2489BA82528F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
