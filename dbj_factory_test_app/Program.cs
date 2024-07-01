@@ -31,7 +31,7 @@ class Program
                 var product = await DbjFactory.DbjFactory.GetProductAsync<ProductA>();
             Console.WriteLine(product?.GetName());
 
-            Result<ProductB?>? result = 
+            var result = 
                 await DbjFactory.DbjFactory.GetProductAsyncNoThrow<ProductB>();
 
             if (result is not null )

@@ -58,9 +58,9 @@ public class Result
 
 public class Result<T> : Result
 {
-    public T ? Data { get; }
+    public T Data { get; } 
 
-    protected Result(bool isSuccess, T ? data, string errorMessage, Exception ? exception)
+    protected Result(bool isSuccess, T data, string errorMessage, Exception ? exception)
         : base(isSuccess, errorMessage, exception)
     {
         Data = data;
@@ -73,6 +73,6 @@ public class Result<T> : Result
 
     public static new Result<T> Failure(string errorMessage, Exception ? exception = null)
     {
-        return new Result<T>(false, default(T) , errorMessage, exception);
+        return new Result<T>(false, default! , errorMessage, exception);
     }
 }

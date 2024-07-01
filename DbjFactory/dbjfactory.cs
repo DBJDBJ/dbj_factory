@@ -5,8 +5,15 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using dbj_result;
 
+// pay attention this is a global type alias
+// C# compiler needs name spaces
+using FactoryResult = dbj_result.Result<DbjFactory.IProduct>;
 
 namespace DbjFactory;
+
+// pay attention this is inside the name space where IProduct is defined
+// using FactoryResult = Result<IProduct>;
+
 
 public interface IProduct
 {
@@ -23,16 +30,15 @@ public abstract class BaseProduct : IProduct
 
 public static class DbjFactory
 {
-    //private static readonly ConcurrentDictionary<Type, Type> ProductRegistry = new ConcurrentDictionary<Type, Type>();
+    // ConcurrentDictionary, is a overkill here
     private static readonly
-    System.Collections.Concurrent.BlockingCollection<Type>
+    System.Collections.Concurrent.ConcurrentBag<Type>
         ProductRegistry = new();
 
     public static void RegisterProduct<TConcrete>()
             where TConcrete : IProduct, new()
     {
-        //ProductRegistry[typeof(IProduct)] = typeof(TConcrete);
-        ProductRegistry.TryAdd(typeof(TConcrete));
+        ProductRegistry.Add(typeof(TConcrete));
     }
 
     public static async Task<TProduct?> GetProductAsync<TProduct>()
@@ -46,21 +52,39 @@ public static class DbjFactory
         throw new InvalidOperationException($"No concrete type registered for {typeof(TProduct).Name}");
     }
 
-    public static async Task<Result<TProduct?>?> GetProductAsyncNoThrow<TProduct>()
+    public static async Task<FactoryResult?>
+        GetProductAsyncNoThrow<TProduct>()
         where TProduct : IProduct, new()
     {
-
-        if (ProductRegistry.Contains(typeof(TProduct)))
+        try
         {
-            return await Task.Run(() =>
-            Result<TProduct?>.Success(
-                (TProduct?)Activator.CreateInstance(typeof(TProduct))
-            ));
+            if (ProductRegistry.Contains(typeof(TProduct)))
+            {
+                return await Task.Run(() =>
+                {
+                    // 2024 c# compiler and legacy casting dont go well together , example
+                    // (IProduct)Activator.CreateInstance(typeof(TProduct))
+                    // if not using "as" as bellow
+                    // nullability complains will arrise
+                    IProduct? product = Activator.CreateInstance(typeof(TProduct)) as IProduct ;
+
+                    if (product is not null)
+                        return FactoryResult.Success(
+                                            product
+                                        );
+
+                    return FactoryResult.Failure(
+        $"Concrete type {typeof(TProduct).Name}, but could not create its instance");
+                });
+            }
+
+            return FactoryResult.Failure(
+                $"No concrete type registered for {typeof(TProduct).Name}");
         }
-
-        return Result<TProduct?>.Failure(
-            $"No concrete type registered for {typeof(TProduct).Name}");
-
+        catch (Exception ex)
+        {
+            return FactoryResult.Failure("General Exception from GetProductAsyncNoThrow", ex);
+        }
     }
 }
 
