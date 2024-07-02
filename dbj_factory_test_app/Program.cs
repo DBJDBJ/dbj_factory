@@ -1,43 +1,40 @@
 // global aliases but for this project only
 global using FactoryResult = dbj_result.Result<DbjProduction.IProduct>;
-using dbj_result;
+using dbj_factory_test_app;
+using products;
 
-//using System;
-//using System.Threading.Tasks;
-//using dbj_factory_test_app;
-using DbjProduction;
-//using dbj_result;
+// if you think this is not elegant
+// it replaces a lot of code required to achieve the same
+// using DI, IHostedService and all that jazz 
+ProductRegistrar.EnsureStaticCtorCalled();
 
-
-namespace dbj_factory_test_app;
-
-class Program
+try
 {
-    static async Task Main(string[] args)
-    {
-        try
-        {
-            _ = await GetProduct<Milk>();
-            _ = await GetProduct<Bread>();
-        }
-        catch (Exception x)
-        {
-            Console.WriteLine(x.Message);
-        }
-    }
+    // cowie we can use, Milk was registered
+    Milk ? cowie = await ObtainProduct<Milk>() as Milk ;
 
-    static async Task<FactoryResult> GetProduct<TProduct>( )
-        where TProduct : DbjProduction.IProduct, new()
-    {
-        FactoryResult 
-            result =
-                await DbjProduction.Factory.GetProductAsync<TProduct>();
-
-                //if (false == result.IsSuccess)
-                // this is error message
-                 Console.WriteLine(result.Message);
-        return result ;
-    }
+    // baget is null, Bread was not registered
+    Bread ? baget = await ObtainProduct<Bread>() as Bread;
 }
+catch (Exception x)
+{
+    Log.Async(x.Message);
+}
+
+// no this is not to be inside factory, because it would
+// create dependancy on logging mechanism
+static async Task<DbjProduction.IProduct> ObtainProduct<TProduct>()
+    where TProduct : DbjProduction.IProduct, new()
+{
+    FactoryResult
+        result =
+            await DbjProduction.Factory.GetProductAsync<TProduct>();
+
+    //if (false == result.IsSuccess)
+    // this is error message
+    Log.Async(result.Message);
+    return result.Data; 
+}
+
 
 
