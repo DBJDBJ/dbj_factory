@@ -1,3 +1,5 @@
+// global aliase used here
+//global using FactoryResult = dbj_result.Result<DbjFactory.IProduct>;
 
 using System;
 using System.Collections.Concurrent;
@@ -5,9 +7,13 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using dbj_result;
 
+
 // pay attention this is a global type alias
-// C# compiler needs name spaces
-using FactoryResult = dbj_result.Result<DbjFactory.IProduct>;
+// inhere C# compiler needs name spaces
+// still this alias is not visible outside of this file
+// using FactoryResult = dbj_result.Result<DbjFactory.IProduct>;
+// ditto we use the alisases.cs 
+// in here and wnerever required 
 
 namespace DbjFactory;
 
@@ -41,19 +47,19 @@ public static class DbjFactory
         ProductRegistry.Add(typeof(TConcrete));
     }
 
-    public static async Task<TProduct?> GetProductAsync<TProduct>()
-        where TProduct : IProduct, new()
-    {
+    //public static async Task<TProduct?> GetProductAsync<TProduct>()
+    //    where TProduct : IProduct, new()
+    //{
 
-        if (ProductRegistry.Contains(typeof(TProduct)))
-        {
-            return await Task.Run(() => (TProduct?)Activator.CreateInstance(typeof(TProduct)));
-        }
-        throw new InvalidOperationException($"No concrete type registered for {typeof(TProduct).Name}");
-    }
+    //    if (ProductRegistry.Contains(typeof(TProduct)))
+    //    {
+    //        return await Task.Run(() => (TProduct?)Activator.CreateInstance(typeof(TProduct)));
+    //    }
+    //    throw new InvalidOperationException($"No concrete type registered for {typeof(TProduct).Name}");
+    //}
 
-    public static async Task<FactoryResult?>
-        GetProductAsyncNoThrow<TProduct>()
+    public static async Task<FactoryResult>
+        GetProductAsync<TProduct>()
         where TProduct : IProduct, new()
     {
         try
@@ -70,8 +76,9 @@ public static class DbjFactory
 
                     if (product is not null)
                         return FactoryResult.Success(
-                                            product
-                                        );
+                           $"Concrete type {typeof(TProduct).Name}, instance created"
+                           , product
+                         );
 
                     return FactoryResult.Failure(
         $"Concrete type {typeof(TProduct).Name}, but could not create its instance");

@@ -1,22 +1,15 @@
-using System;
-using System.Threading.Tasks;
-using dbj_factory_test_app;
-using DbjFactory;
+// global aliases but for this project only
+global using FactoryResult = dbj_result.Result<DbjFactory.IProduct>;
 using dbj_result;
 
+//using System;
+//using System.Threading.Tasks;
+//using dbj_factory_test_app;
+using DbjFactory;
+//using dbj_result;
+
+
 namespace dbj_factory_test_app;
-
-public class ProductA : BaseProduct
-{
-    // Additional properties and methods specific to ProductA
-}
-
-public class ProductB : BaseProduct
-{
-
-    // Additional properties and methods specific to ProductA
-}
-
 
 class Program
 {
@@ -25,27 +18,27 @@ class Program
         try
         {
             DbjFactory.DbjFactory.RegisterProduct<ProductA>();
-            //
-            // IProduct? product;
-            // Result<IProduct?> 
-                var product = await DbjFactory.DbjFactory.GetProductAsync<ProductA>();
-            Console.WriteLine(product?.GetName());
 
-            var result = 
-                await DbjFactory.DbjFactory.GetProductAsyncNoThrow<ProductB>();
-
-            if (result is not null )
-            {
-                if (result.IsSuccess)
-                    Console.WriteLine(result.Data?.GetName());
-                else 
-                    Console.WriteLine(result.ErrorMessage); 
-            }
+            _ = await GetProduct<ProductA>();
+            _ = await GetProduct<ProductB>();
         }
-        catch (InvalidOperationException iopx)
+        catch (Exception x)
         {
-            Console.WriteLine(iopx.Message);
+            Console.WriteLine(x.Message);
         }
+    }
+
+    static async Task<FactoryResult> GetProduct<TProduct>( )
+        where TProduct : DbjFactory.IProduct, new()
+    {
+        FactoryResult 
+            result =
+                await DbjFactory.DbjFactory.GetProductAsync<TProduct>();
+
+                //if (false == result.IsSuccess)
+                // this is error message
+                 Console.WriteLine(result.Message);
+        return result ;
     }
 }
 

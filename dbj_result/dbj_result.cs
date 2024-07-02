@@ -35,13 +35,13 @@ public Result<string> GetStringResult()
 public class Result
 {
     public bool IsSuccess { get; }
-    public string ErrorMessage { get; }
+    public string Message { get; }
     public Exception ? Exception { get; }
 
     protected Result(bool isSuccess, string errorMessage, Exception ? exception)
     {
         IsSuccess = isSuccess;
-        ErrorMessage = errorMessage;
+        Message = errorMessage;
         Exception = exception;
     }
 
@@ -69,6 +69,11 @@ public class Result<T> : Result
     public static Result<T> Success(T data)
     {
         return new Result<T>(true, data, string.Empty, null);
+    }
+
+    public static Result<T> Success(string infoMessage, T data)
+    {
+        return new Result<T>(true, data, infoMessage, null);
     }
 
     public static new Result<T> Failure(string errorMessage, Exception ? exception = null)
