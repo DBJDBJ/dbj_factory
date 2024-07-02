@@ -17,10 +17,8 @@ class Program
     {
         try
         {
-            DbjFactory.DbjFactory.RegisterProduct<ProductA>();
-
-            _ = await GetProduct<ProductA>();
-            _ = await GetProduct<ProductB>();
+            _ = await GetProduct<Milk>();
+            _ = await GetProduct<Bread>();
         }
         catch (Exception x)
         {

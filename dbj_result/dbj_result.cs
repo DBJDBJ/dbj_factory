@@ -1,5 +1,7 @@
 namespace dbj_result ;
 
+
+
 /*
  * Usage: 
  * 
@@ -32,13 +34,20 @@ public Result<string> GetStringResult()
 
  */
 
-public class Result
+public interface IResult
+{
+    Exception? Exception { get; }
+    bool IsSuccess { get; }
+    string Message { get; }
+}
+
+public class Result : IResult
 {
     public bool IsSuccess { get; }
     public string Message { get; }
-    public Exception ? Exception { get; }
+    public Exception? Exception { get; }
 
-    protected Result(bool isSuccess, string errorMessage, Exception ? exception)
+    protected Result(bool isSuccess, string errorMessage, Exception? exception)
     {
         IsSuccess = isSuccess;
         Message = errorMessage;
@@ -50,17 +59,17 @@ public class Result
         return new Result(true, string.Empty, null);
     }
 
-    public static Result Failure(string errorMessage, Exception ? exception = null)
+    public static Result Failure(string errorMessage, Exception? exception = null)
     {
         return new Result(false, errorMessage, exception);
     }
 }
 
-public class Result<T> : Result
+public sealed class Result<T> : Result
 {
     public T Data { get; } 
 
-    protected Result(bool isSuccess, T data, string errorMessage, Exception ? exception)
+    Result(bool isSuccess, T data, string errorMessage, Exception ? exception)
         : base(isSuccess, errorMessage, exception)
     {
         Data = data;

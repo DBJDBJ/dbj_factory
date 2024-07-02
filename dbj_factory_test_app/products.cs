@@ -1,12 +1,22 @@
 ﻿using DbjFactory;
 
-public class ProductA : BaseProduct
+public class Milk : BaseProduct
 {
     // Additional properties and methods specific to ProductA
 }
 
-public class ProductB : BaseProduct
+public class Bread : BaseProduct
 {
 
     // Additional properties and methods specific to ProductA
+}
+
+public static class ProductRegistrar
+{
+    static ProductRegistrar()
+    {
+        DbjFactory.DbjFactory.RegisterProduct<Milk>();
+        // TODO
+        // what if this fails
+    }
 }
