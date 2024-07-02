@@ -1,11 +1,11 @@
 // global aliases but for this project only
-global using FactoryResult = dbj_result.Result<DbjFactory.IProduct>;
+global using FactoryResult = dbj_result.Result<DbjProduction.IProduct>;
 using dbj_result;
 
 //using System;
 //using System.Threading.Tasks;
 //using dbj_factory_test_app;
-using DbjFactory;
+using DbjProduction;
 //using dbj_result;
 
 
@@ -27,11 +27,11 @@ class Program
     }
 
     static async Task<FactoryResult> GetProduct<TProduct>( )
-        where TProduct : DbjFactory.IProduct, new()
+        where TProduct : DbjProduction.IProduct, new()
     {
         FactoryResult 
             result =
-                await DbjFactory.DbjFactory.GetProductAsync<TProduct>();
+                await DbjProduction.Factory.GetProductAsync<TProduct>();
 
                 //if (false == result.IsSuccess)
                 // this is error message

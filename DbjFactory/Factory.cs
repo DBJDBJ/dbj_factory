@@ -15,7 +15,7 @@ using dbj_result;
 // ditto we use the alisases.cs 
 // in here and wnerever required 
 
-namespace DbjFactory;
+namespace DbjProduction;
 
 // pay attention this is inside the name space where IProduct is defined
 // using FactoryResult = Result<IProduct>;
@@ -34,7 +34,7 @@ public abstract class BaseProduct : IProduct
     }
 }
 
-public static class DbjFactory
+public static class Factory
 {
     // ConcurrentDictionary, is a overkill here
     private static readonly

@@ -1,4 +1,4 @@
-﻿using DbjFactory;
+﻿using DbjProduction;
 
 public class Milk : BaseProduct
 {
@@ -15,7 +15,7 @@ public static class ProductRegistrar
 {
     static ProductRegistrar()
     {
-        DbjFactory.DbjFactory.RegisterProduct<Milk>();
+        DbjProduction.Factory.RegisterProduct<Milk>();
         // TODO
         // what if this fails
     }
