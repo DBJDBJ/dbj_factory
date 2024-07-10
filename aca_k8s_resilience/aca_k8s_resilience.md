@@ -1,7 +1,7 @@
 
 > with assistance from https://claude.ai/
 
-# Architectural Concept
+# Architectural Concept (by human)
 
  - Resilient Q between two containers: A and B
  - Both  on the same ACA
